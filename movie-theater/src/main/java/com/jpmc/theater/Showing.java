@@ -32,8 +32,4 @@ public class Showing {
     public int getSequenceOfTheDay() {
         return sequenceOfTheDay;
     }
-
-    private double calculateFee(int audienceCount) {
-        return movie.calculateTicketPrice(this) * audienceCount;
-    }
 }

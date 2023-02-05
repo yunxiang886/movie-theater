@@ -1,5 +1,5 @@
 package com.jpmc.theater;
-
+import com.google.gson.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -49,6 +49,20 @@ public class Theater {
         );
         System.out.println("===================================================");
     }
+    public void printJsonSchedule() {
+        JsonObject jsonScheduleObject = new JsonObject();
+        for (int i = 0; i < schedule.size(); i++) {
+            JsonObject scheduleObject = new JsonObject();
+            scheduleObject.addProperty("startTime", schedule.get(i).getStartTime().toString());
+            scheduleObject.addProperty("movieTitle", schedule.get(i).getMovie().getTitle());
+            scheduleObject.addProperty("runningTime", humanReadableFormat(schedule.get(i).getMovie().getRunningTime()));
+            scheduleObject.addProperty("movieFee($)", schedule.get(i).getMovieFee());
+            jsonScheduleObject.add(String.valueOf(schedule.get(i).getSequenceOfTheDay()), scheduleObject);
+        }
+        System.out.println("================below is Json format===============");
+        System.out.println(jsonScheduleObject);
+        System.out.println("===================================================");
+    }
 
     public String humanReadableFormat(Duration duration) {
         long hour = duration.toHours();
@@ -70,5 +84,7 @@ public class Theater {
     public static void main(String[] args) {
         Theater theater = new Theater(LocalDateProvider.singleton());
         theater.printSchedule();
+        // Here, I only assume requirement is return both text format and json format
+        theater.printJsonSchedule();
     }
 }
